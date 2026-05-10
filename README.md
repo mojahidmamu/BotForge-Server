@@ -113,7 +113,7 @@ Steps
 Clone the repository
 
 bash
-git clone https://github.com/yourusername/bspi-botforge-backend.git
+git clone 
 cd bspi-botforge-backend
 Install dependencies
 
