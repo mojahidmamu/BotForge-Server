@@ -343,7 +343,7 @@ For issues, feature requests, or questions:
 
 Open an issue on GitHub
 
-Email: support@bspirobotics.com (replace with your actual contact)
+Email:abdullahallmojahidstudent@gmail.com
 
-Built with ❤️ by BSPI Robotics Club Team
+Built with ❤️ by Abdullah all Mojahid
 Empowering the next generation of robotics innovators
