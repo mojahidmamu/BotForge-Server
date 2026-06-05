@@ -1,48 +1,35 @@
+const Admin = require('../models/Admin');
 const Notification = require('../models/Notification');
 const { sendApprovalEmail, sendRejectionEmail,sendAdminLoginCode, sendNewAdminNotification  } = require('../config/email');
 const User = require('../models/User');
 const Student = require('../models/Student');
 const Transaction = require('../models/Transaction');
 // const Contact = require('../models/Contact');
-const Admin = require('../models/Admin');
 const AdminOTP = require('../models/AdminOTP'); 
 
 // ✅ Admin emails from config
-let ADMIN_EMAILS = [];
-try {
-    const adminEmailsConfig = require('../config/adminEmails');
-    ADMIN_EMAILS = adminEmailsConfig.ADMIN_EMAILS || [];
-} catch (err) {
-    ADMIN_EMAILS = ['abdullahallmojahidstudent@gmail.com'];
-}
+const ADMIN_EMAILS = process.env.ADMIN_EMAILS ? process.env.ADMIN_EMAILS.split(',') : ['abdullahallmojahidstudent@gmail.com'];
 
 // ✅ Check Admin
 exports.checkAdmin = async (req, res) => {
     try {
         const { email } = req.query;
         if (!email) {
-            return res.json({ isAdmin: false, role: 'user' });
+            return res.json({ isAdmin: false, role: null });
         }
-        const normalizedEmail = email.toLowerCase();
-        const isAdmin = ADMIN_EMAILS.includes(normalizedEmail);
-        let user = await User.findOne({ email: normalizedEmail });
-        if (!user) {
-            user = await User.create({
-                email: normalizedEmail,
-                role: isAdmin ? 'admin' : 'user',
-                name: email.split('@')[0],
-                isActive: true
-            });
+        const normalizedEmail = email.toLowerCase().trim();
+        
+        // ডাটাবেসে অ্যাক্টিভ অ্যাডমিন খোঁজা
+        const admin = await Admin.findOne({ email: normalizedEmail, isActive: true });
+        
+        if (admin) {
+            return res.json({ isAdmin: true, role: admin.role });
         } else {
-            if (isAdmin && user.role !== 'admin') {
-                user.role = 'admin';
-                await user.save();
-            }
+            return res.json({ isAdmin: false, role: null });
         }
-        res.json({ isAdmin, role: user.role || (isAdmin ? 'admin' : 'user') });
     } catch (error) {
         console.error('Check admin error:', error);
-        res.status(500).json({ isAdmin: false, role: 'user', error: error.message });
+        res.status(500).json({ isAdmin: false, role: null, error: error.message });
     }
 };
 
@@ -604,7 +591,8 @@ exports.sendAdminLoginCode = async (req, res) => {
         }
         
         // চেক করা এই ইমেইলটি অ্যাডমিন কিনা
-        const admin = await Admin.findOne({ email: email.toLowerCase(), isActive: true });
+        const normalizedEmail = email.toLowerCase().trim();
+        const admin = await Admin.findOne({ email: normalizedEmail, isActive: true });
         
         if (!admin) {
             return res.status(403).json({ 

@@ -139,44 +139,44 @@ const sendRejectionEmail = async (email, name, reason) => {
 };
 
 // ✅ অ্যাডমিন লগইন ক্যাপচা কোড ইমেইল
-// const sendAdminLoginCode = async (email, code) => {
-//     const html = `
-//         <!DOCTYPE html>
-//         <html>
-//         <head>
-//             <style>
-//                 body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; }
-//                 .container { max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3px; border-radius: 10px; }
-//                 .content { background: white; padding: 30px; border-radius: 8px; text-align: center; }
-//                 .header h2 { color: #667eea; margin: 0; }
-//                 .code-box { background: #f0f0f0; padding: 20px; font-size: 32px; letter-spacing: 10px; font-weight: bold; border-radius: 10px; margin: 20px 0; }
-//                 .warning { color: #dc3545; font-size: 12px; margin-top: 20px; }
-//                 .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #999; }
-//             </style>
-//         </head>
-//         <body>
-//             <div class="container">
-//                 <div class="content">
-//                     <div class="header">
-//                         <h2>🔐 Admin Login Verification</h2>
-//                     </div>
-//                     <p>Your security code for admin panel access is:</p>
-//                     <div class="code-box">${code}</div>
-//                     <p><strong>This code will expire in 5 minutes.</strong></p>
-//                     <p>If you didn't request this, please ignore this email.</p>
-//                     <div class="warning">
-//                         ⚠️ Never share this code with anyone!
-//                     </div>
-//                     <div class="footer">
-//                         <p>BSPI Robotics Club - Admin Security</p>
-//                     </div>
-//                 </div>
-//             </div>
-//         </body>
-//         </html>
-//     `;
-//     return await sendEmail(email, '🔐 Admin Login Security Code', html);
-// };
+const sendAdminLoginCode = async (email, code) => {
+    const html = `
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 3px; border-radius: 10px; }
+                .content { background: white; padding: 30px; border-radius: 8px; text-align: center; }
+                .header h2 { color: #667eea; margin: 0; }
+                .code-box { background: #f0f0f0; padding: 20px; font-size: 32px; letter-spacing: 10px; font-weight: bold; border-radius: 10px; margin: 20px 0; }
+                .warning { color: #dc3545; font-size: 12px; margin-top: 20px; }
+                .footer { text-align: center; margin-top: 30px; font-size: 12px; color: #999; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="content">
+                    <div class="header">
+                        <h2>🔐 Admin Login Verification</h2>
+                    </div>
+                    <p>Your security code for admin panel access is:</p>
+                    <div class="code-box">${code}</div>
+                    <p><strong>This code will expire in 5 minutes.</strong></p>
+                    <p>If you didn't request this, please ignore this email.</p>
+                    <div class="warning">
+                        ⚠️ Never share this code with anyone!
+                    </div>
+                    <div class="footer">
+                        <p>BSPI Robotics Club - Admin Security</p>
+                    </div>
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
+    return await sendEmail(email, '🔐 Admin Login Security Code', html);
+};
 
 // ✅ নতুন অ্যাডমিন যোগ করার নোটিফিকেশন
 const sendNewAdminNotification = async (email, name) => {
@@ -214,39 +214,39 @@ const sendNewAdminNotification = async (email, name) => {
 };
 
 // ✅ অ্যাডমিন লগইন কোড ইমেইল (নাম সহ)
-const sendAdminLoginCode = async (email, code, name) => {
-    const html = `
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <style>
-                body { font-family: 'Segoe UI', Arial, sans-serif; }
-                .container { max-width: 600px; margin: auto; padding: 20px; }
-                .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center; }
-                .code-box { background: #f0f0f0; padding: 20px; font-size: 32px; letter-spacing: 10px; font-weight: bold; text-align: center; border-radius: 10px; margin: 20px 0; }
-                .warning { color: #dc3545; font-size: 12px; text-align: center; }
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h2>🔐 Admin Login Verification</h2>
-                </div>
-                <div class="content">
-                    <p>Dear <strong>${name || email.split('@')[0]}</strong>,</p>
-                    <p>Your security code for admin panel access is:</p>
-                    <div class="code-box">${code}</div>
-                    <p>This code will expire in <strong>5 minutes</strong>.</p>
-                    <div class="warning">
-                        ⚠️ Never share this code with anyone!
-                    </div>
-                </div>
-            </div>
-        </body>
-        </html>
-    `;
-    return await sendEmail(email, '🔐 Admin Login Security Code', html);
-};
+// const sendAdminLoginCode = async (email, code, name) => {
+//     const html = `
+//         <!DOCTYPE html>
+//         <html>
+//         <head>
+//             <style>
+//                 body { font-family: 'Segoe UI', Arial, sans-serif; }
+//                 .container { max-width: 600px; margin: auto; padding: 20px; }
+//                 .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center; }
+//                 .code-box { background: #f0f0f0; padding: 20px; font-size: 32px; letter-spacing: 10px; font-weight: bold; text-align: center; border-radius: 10px; margin: 20px 0; }
+//                 .warning { color: #dc3545; font-size: 12px; text-align: center; }
+//             </style>
+//         </head>
+//         <body>
+//             <div class="container">
+//                 <div class="header">
+//                     <h2>🔐 Admin Login Verification</h2>
+//                 </div>
+//                 <div class="content">
+//                     <p>Dear <strong>${name || email.split('@')[0]}</strong>,</p>
+//                     <p>Your security code for admin panel access is:</p>
+//                     <div class="code-box">${code}</div>
+//                     <p>This code will expire in <strong>5 minutes</strong>.</p>
+//                     <div class="warning">
+//                         ⚠️ Never share this code with anyone!
+//                     </div>
+//                 </div>
+//             </div>
+//         </body>
+//         </html>
+//     `;
+//     return await sendEmail(email, '🔐 Admin Login Security Code', html);
+// };
 
 
 module.exports = {sendAdminNotificationEmail,  sendApprovalEmail, sendRejectionEmail , sendAdminLoginCode, sendNewAdminNotification};
