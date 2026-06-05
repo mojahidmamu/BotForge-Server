@@ -1,4 +1,3 @@
-const dotenv = require('dotenv');
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -162,6 +161,7 @@ const PORT = process.env.PORT || 5000;
 const HOST = '0.0.0.0'; // এই লাইনটা গুরুত্বপূর্ণ!
 app.listen(PORT, () => {
     console.log(`✅ Server running on http://localhost:${PORT}`);
+    console.log('✅ MONGODB_URI:', process.env.MONGODB_URI);
     console.log(`✅ API: http://localhost:${PORT}/api`);
     console.log(`✅ Email configured for: abdullahallmojahidstudent@gmail.com`);
     console.log(`✅ Network access: http://192.168.1.100:${PORT}`);
