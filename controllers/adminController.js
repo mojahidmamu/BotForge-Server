@@ -590,7 +590,7 @@ exports.sendAdminLoginCode = async (req, res) => {
             return res.status(400).json({ success: false, error: 'Email is required' });
         }
         
-        // চেক করা এই ইমেইলটি অ্যাডমিন কিনা
+        //  check this mail with admin: 
         const normalizedEmail = email.toLowerCase().trim();
         const admin = await Admin.findOne({ email: normalizedEmail, isActive: true });
         
