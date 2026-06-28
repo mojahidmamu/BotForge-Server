@@ -178,14 +178,14 @@ const getMyStatus = async (req, res) => {
 
 const getApprovedStudents = async (req, res) => {
     try {
-        console.log("=== API HIT ===");
-        console.log("Query:", req.query);
+        // console.log("=== API HIT ===");
+        // console.log("Query:", req.query);
 
         const allStudents = await Student.find({});
-        console.log("Total Students:", allStudents.length);
+        // console.log("Total Students:", allStudents.length);
 
         const approvedStudents = await Student.find({ status: "approved" });
-        console.log("Approved Students:", approvedStudents.length);
+        // console.log("Approved Students:", approvedStudents.length);
 
         res.json({
             success: true,
