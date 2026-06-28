@@ -127,50 +127,78 @@ const getMyStatus = async (req, res) => {
 };
  
 // অ্যাপ্রুভড স্টুডেন্ট লিস্ট (পাবলিক)
+// const getApprovedStudents = async (req, res) => {
+//     console.log("API HIT");
+//     console.log(req.query);
+//     try {
+//         const { search, department, bloodGroup, sortBy, order } = req.query;
+//         let query = { status: 'approved' };
+        
+//         // সার্চ ফিল্টার
+//         if (search) {
+//             query.$or = [
+//                 { name: { $regex: search, $options: 'i' } },
+//                 { skills: { $regex: search, $options: 'i' } },
+//                 { department: { $regex: search, $options: 'i' } }
+//             ];
+//         }
+        
+//         // ডিপার্টমেন্ট ফিল্টার
+//         if (department && department !== 'all') {
+//             query.department = department;
+//         }
+        
+//         // ✅ ব্লাড গ্রুপ ফিল্টার (নতুন যোগ)
+//         if (bloodGroup && bloodGroup !== 'all') {
+//             query.bloodGroup = bloodGroup;
+//         }
+        
+//         // সর্টিং
+//         let sortOptions = {};
+//         if (sortBy === 'cgpa') {
+//             sortOptions.cgpa = order === 'asc' ? 1 : -1;
+//         } else if (sortBy === 'session') {
+//             sortOptions.session = order === 'asc' ? 1 : -1;
+//         } else {
+//             sortOptions.appliedAt = -1;
+//         }
+        
+//         const students = await Student.find(query).sort(sortOptions);
+        
+//         res.json({ 
+//             success: true, 
+//             count: students.length,
+//             data: students 
+//         });
+//     } catch (error) {
+//         console.error('Get approved students error:', error);
+//         res.status(500).json({ success: false, message: error.message });
+//     }
+// };
+
 const getApprovedStudents = async (req, res) => {
     try {
-        const { search, department, bloodGroup, sortBy, order } = req.query;
-        let query = { status: 'approved' };
-        
-        // সার্চ ফিল্টার
-        if (search) {
-            query.$or = [
-                { name: { $regex: search, $options: 'i' } },
-                { skills: { $regex: search, $options: 'i' } },
-                { department: { $regex: search, $options: 'i' } }
-            ];
-        }
-        
-        // ডিপার্টমেন্ট ফিল্টার
-        if (department && department !== 'all') {
-            query.department = department;
-        }
-        
-        // ✅ ব্লাড গ্রুপ ফিল্টার (নতুন যোগ)
-        if (bloodGroup && bloodGroup !== 'all') {
-            query.bloodGroup = bloodGroup;
-        }
-        
-        // সর্টিং
-        let sortOptions = {};
-        if (sortBy === 'cgpa') {
-            sortOptions.cgpa = order === 'asc' ? 1 : -1;
-        } else if (sortBy === 'session') {
-            sortOptions.session = order === 'asc' ? 1 : -1;
-        } else {
-            sortOptions.appliedAt = -1;
-        }
-        
-        const students = await Student.find(query).sort(sortOptions);
-        
-        res.json({ 
-            success: true, 
-            count: students.length,
-            data: students 
+        console.log("=== API HIT ===");
+        console.log("Query:", req.query);
+
+        const allStudents = await Student.find({});
+        console.log("Total Students:", allStudents.length);
+
+        const approvedStudents = await Student.find({ status: "approved" });
+        console.log("Approved Students:", approvedStudents.length);
+
+        res.json({
+            success: true,
+            count: approvedStudents.length,
+            data: approvedStudents
         });
+
     } catch (error) {
-        console.error('Get approved students error:', error);
-        res.status(500).json({ success: false, message: error.message });
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
     }
 };
 
@@ -285,6 +313,8 @@ const getStudentById = async (req, res) => {
         });
     }
 };
+
+
 
 
 
