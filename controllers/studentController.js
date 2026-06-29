@@ -178,8 +178,37 @@ const getMyStatus = async (req, res) => {
 
 const getApprovedStudents = async (req, res) => {
     try {
-        // console.log("=== API HIT ===");
-        // console.log("Query:", req.query);
+        const { search, department, bloodGroup, sortBy, order } = req.query;
+        let query = { status: 'approved' };
+
+        // সার্চ ফিল্টার
+        if (search) {
+            query.$or = [
+                { name: { $regex: search, $options: 'i' } },
+                { skills: { $regex: search, $options: 'i' } },
+                { department: { $regex: search, $options: 'i' } }
+            ];
+        }
+        
+        // ডিপার্টমেন্ট ফিল্টার
+        if (department && department !== 'all') {
+            query.department = department;
+        }
+        
+        // ✅ ব্লাড গ্রুপ ফিল্টার (নতুন যোগ)
+        if (bloodGroup && bloodGroup !== 'all') {
+            query.bloodGroup = bloodGroup;
+        }
+        
+        // সর্টিং
+        let sortOptions = {};
+        if (sortBy === 'cgpa') {
+            sortOptions.cgpa = order === 'asc' ? 1 : -1;
+        } else if (sortBy === 'session') {
+            sortOptions.session = order === 'asc' ? 1 : -1;
+        } else {
+            sortOptions.appliedAt = -1;
+        }
 
         const allStudents = await Student.find({});
         // console.log("Total Students:", allStudents.length);
@@ -187,10 +216,12 @@ const getApprovedStudents = async (req, res) => {
         const approvedStudents = await Student.find({ status: "approved" });
         // console.log("Approved Students:", approvedStudents.length);
 
-        res.json({
-            success: true,
-            count: approvedStudents.length,
-            data: approvedStudents
+        const students = await Student.find(query).sort(sortOptions);
+        
+        res.json({ 
+            success: true, 
+            count: students.length,
+            data: students 
         });
 
     } catch (error) {
