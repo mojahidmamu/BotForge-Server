@@ -182,12 +182,19 @@ const getApprovedStudents = async (req, res) => {
         let query = { status: 'approved' };
 
         // সার্চ ফিল্টার
-        if (search) {
-            query.$or = [
-                { name: { $regex: search, $options: 'i' } },
-                { skills: { $regex: search, $options: 'i' } },
-                { department: { $regex: search, $options: 'i' } }
+            if (search) {
+                const searchConditions = [
+                    { name: { $regex: search, $options: 'i' } },
+                    { skills: { $regex: search, $options: 'i' } },
+                    { department: { $regex: search, $options: 'i' } },
             ];
+
+            // যদি 6 digit roll হয়
+            if (/^\d{6}$/.test(search)) {
+                searchConditions.push({ roll: search });
+            }
+
+            query.$or = searchConditions;
         }
         
         // ডিপার্টমেন্ট ফিল্টার
